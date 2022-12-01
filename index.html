@@ -76,9 +76,41 @@
     <!-- Crisp Chatbot End -->
 
     <!-- FreshChat Chatbot beginning -->
-    <!-- <script src='//fw-cdn.com/2293125/2937713.js' chat='true'>
+    <script src='//fw-cdn.com/2293125/2937713.js' chat='true'>
+    </script>
+
+    <script>
+      let freshchatUser = new FreshchatUser();
+      freshchatUser = {
+        ...freshchatUser,
+        firstName: user_name,
+        email: email_address,
+        phoneCountryCode: PHONE_CODE,
+        phone: phone_number,
+      };
+      Freshchat.setUser(freshchatUser);
+      Freshchat.identifyUser(user_uid, chat_id || null, () => { }); // user_uid as externalId and chat_id as restoreId
+      Freshchat.getUser((user) => {
+        const restoreId = user.restoreId;
+        if (!restoreId && !chat_id) {
+          Freshchat.getFreshchatUserId((data) => {
+            const users = { ...userInfo, chat_id: data };
+            setLSItems('userData', JSON.stringify(users));
+            // BE API Call to update restore id
+          });
+        }
+
+        console.log(getFreshchatUserId);
+      });
+    </script>
+    <!-- <script>
+      window.fcWidget.user.clear().then(function () {
+        console.log('User cleared');
+      }, function () {
+        console.log("User Not cleared");
+      });
     </script> -->
-    <script> (function (d, w, c) { if (!d.getElementById("spd-busns-spt")) { var n = d.getElementsByTagName('script')[0], s = d.createElement('script'); var loaded = false; s.id = "spd-busns-spt"; s.async = "async"; s.setAttribute("data-self-init", "false"); s.setAttribute("data-init-type", "opt"); s.src = 'https://cdn.freshbots.ai/assets/share/js/freshbots.min.js'; s.setAttribute("data-client", "d149bebec9a4328ab31b11be94b237eca01acaf6"); s.setAttribute("data-bot-hash", "2b3876b7c673bb8b463c9e24428c0547b4037841"); s.setAttribute("data-env", "prod"); s.setAttribute("data-region", "us"); if (c) { s.onreadystatechange = s.onload = function () { if (!loaded) { c(); } loaded = true; }; } n.parentNode.insertBefore(s, n); } })(document, window, function () { Freshbots.initiateWidget({ autoInitChat: false, getClientParams: function () { return; } }, function (successResponse) { }, function (errorResponse) { }); }); </script>
+    <!-- <script> (function (d, w, c) { if (!d.getElementById("spd-busns-spt")) { var n = d.getElementsByTagName('script')[0], s = d.createElement('script'); var loaded = false; s.id = "spd-busns-spt"; s.async = "async"; s.setAttribute("data-self-init", "false"); s.setAttribute("data-init-type", "opt"); s.src = 'https://cdn.freshbots.ai/assets/share/js/freshbots.min.js'; s.setAttribute("data-client", "d149bebec9a4328ab31b11be94b237eca01acaf6"); s.setAttribute("data-bot-hash", "2b3876b7c673bb8b463c9e24428c0547b4037841"); s.setAttribute("data-env", "prod"); s.setAttribute("data-region", "us"); if (c) { s.onreadystatechange = s.onload = function () { if (!loaded) { c(); } loaded = true; }; } n.parentNode.insertBefore(s, n); } })(document, window, function () { Freshbots.initiateWidget({ autoInitChat: false, getClientParams: function () { return; } }, function (successResponse) { }, function (errorResponse) { }); }); </script> -->
     <!-- FreshChat Chatbot ending -->
 
 
