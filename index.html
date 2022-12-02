@@ -79,29 +79,43 @@
     <script src='//fw-cdn.com/2293125/2937713.js' chat='true'>
     </script>
 
-    <script>
-      let freshchatUser = new FreshchatUser();
-      freshchatUser = {
-        ...freshchatUser,
-        firstName: user_name,
-        email: email_address,
-        phoneCountryCode: PHONE_CODE,
-        phone: phone_number,
-      };
-      Freshchat.setUser(freshchatUser);
-      Freshchat.identifyUser(user_uid, chat_id || null, () => { }); // user_uid as externalId and chat_id as restoreId
-      Freshchat.getUser((user) => {
-        const restoreId = user.restoreId;
-        if (!restoreId && !chat_id) {
-          Freshchat.getFreshchatUserId((data) => {
-            const users = { ...userInfo, chat_id: data };
-            setLSItems('userData', JSON.stringify(users));
-            // BE API Call to update restore id
-          });
-        }
+    <!-- <script>
 
-        console.log(getFreshchatUserId);
-      });
+      function initFreshChat() {
+        window.fcWidget.init({
+          token: "eyJraWQiOiJjdXN0b20tb2F1dGgta2V5aWQiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmcmVzaGNoYXQiLCJzdWIiOiI4YmNhZDZhNC1mOWE0LTQxODAtYTY1MC0yNjU0YWI1OTgwMjIiLCJjbGllbnRJZCI6ImZjLThkNjBkMTljLWVhNTctNDNlNC04YWRkLTM4ZDQ4ODhhMGUzMCIsInNjb3BlIjoiYWdlbnQ6cmVhZCBhZ2VudDpjcmVhdGUgYWdlbnQ6dXBkYXRlIGFnZW50OmRlbGV0ZSBjb252ZXJzYXRpb246Y3JlYXRlIGNvbnZlcnNhdGlvbjpyZWFkIGNvbnZlcnNhdGlvbjp1cGRhdGUgbWVzc2FnZTpjcmVhdGUgbWVzc2FnZTpnZXQgYmlsbGluZzp1cGRhdGUgcmVwb3J0czpmZXRjaCByZXBvcnRzOmV4dHJhY3QgcmVwb3J0czpyZWFkIHJlcG9ydHM6ZXh0cmFjdDpyZWFkIGFjY291bnQ6cmVhZCBkYXNoYm9hcmQ6cmVhZCB1c2VyOnJlYWQgdXNlcjpjcmVhdGUgdXNlcjp1cGRhdGUgdXNlcjpkZWxldGUgb3V0Ym91bmRtZXNzYWdlOnNlbmQgb3V0Ym91bmRtZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6bWVzc2FnZTpzZW5kIG1lc3NhZ2luZy1jaGFubmVsczptZXNzYWdlOmdldCBtZXNzYWdpbmctY2hhbm5lbHM6dGVtcGxhdGU6Y3JlYXRlIG1lc3NhZ2luZy1jaGFubmVsczp0ZW1wbGF0ZTpnZXQgZmlsdGVyaW5ib3g6cmVhZCBmaWx0ZXJpbmJveDpjb3VudDpyZWFkIHJvbGU6cmVhZCBpbWFnZTp1cGxvYWQiLCJpc3MiOiJmcmVzaGNoYXQiLCJ0eXAiOiJCZWFyZXIiLCJleHAiOjE5ODU0OTc2NDIsImlhdCI6MTY2OTg3ODQ0MiwianRpIjoiNzI3NWM3ODEtZWZiYS00NzI3LThmMGUtNzhiYmVhOTllZjMxIn0.gGjCJg00rerDMfTrijfwqCqJsdzAykP-OAbG-721Wvk",
+          host: "https://ralphgerardramirez.myfreshworks.com/",
+          externalId: user.email,
+          restoredId: restoreId ? restoreId : null,
+          onInit: function () {
+            window.fcWidget.on('widget:loaded', function () {
+              window.fcWidget.user.get(function (resp) {
+                var status = resp && resp.status,
+                  data = resp && resp.data;
+                if (status !== 200) {
+                  window.fcWidget.user.setProperties({
+                    firstName: firstName, //user's first name
+                    lastName: lastName, //user's last name
+                    email: email, //user's email address
+                    phone: phone, //phone number without country code
+                  });
+                  window.fcWidget.on('user:created', function (resp) {
+                    var status = resp && resp.status,
+                      data = resp && resp.data;
+                    if (status === 200) {
+                      if (data.restoreId) {
+                        // Update restoreId in your database
+                      }
+                    }
+                  });
+                }
+              });
+            });
+          }
+        });
+      }
+      function initialize(i, t) { var e; i.getElementById(t) ? initFreshChat() : ((e = i.createElement("script")).id = t, e.async = !0, e.src = "WEB_CHAT_URL/js/widget.js", e.onload = initFreshChat, i.head.appendChild(e)) } function initiateCall() { initialize(document, "freshchat-js-sdk") } window.addEventListener ? window.addEventListener("load", initiateCall, !1) : window.attachEvent("load", initiateCall, !1); -->
+
     </script>
     <!-- <script>
       window.fcWidget.user.clear().then(function () {
